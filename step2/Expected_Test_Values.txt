@@ -1,0 +1,21 @@
+test1 --> accepted 
+test2 --> not accepted 
+test3 --> not accepted 
+test4 --> not accepted 
+test5 --> accepted 
+test6 -->  accepted 
+test7 --> accepted
+test8 -->  accepted
+test9 --> not accepted 
+test10 --> not accepted 
+test11 --> accepted 
+test12 --> not accepted 
+test13 --> accepted 
+test14 --> accepted 
+test15 --> not accepted 
+test16 --> accepted 
+test17 --> not accepted 
+test18 --> accepted 
+test19 --> accepted 
+test20 --> accepted 
+test21 --> accepted 
