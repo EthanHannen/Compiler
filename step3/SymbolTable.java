@@ -53,7 +53,7 @@ public class SymbolTable
     public void printTable()
     {
         ArrayList<List<String>> vars = map.get(scope);
-        System.out.println("Symbol table " + scope);
+        System.out.println("\nSymbol table " + scope);
         
         if(vars != null)
         {
