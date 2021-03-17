@@ -29,7 +29,6 @@ public class Driver
             {
                 table.printTable();
                 table = table.next;
-                System.out.println("\n");
             }   
         }
     }
