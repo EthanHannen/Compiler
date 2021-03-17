@@ -30,7 +30,7 @@ public class SymbolTable
     
     public static ArrayList<List<String>> getScope(String s)
     {
-        SymbolTable.map.get(s);
+        return SymbolTable.map.get(s);
     }
 
     public void checkDuplicate(String id)
