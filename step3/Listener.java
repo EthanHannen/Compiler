@@ -3,33 +3,44 @@ import java.util.*;
 
 public class Listener extends LittleBaseListener
 {
-    Stack<String> stack = new Stack<>();
-    public SymbolTable symbols;
+    Stack<String> current = new Stack<>();
+    public SymbolTable table;
     public int blockCount = 1;
 
-    public Listener(SymbolTable symbols)
+    public Listener(SymbolTable table)
     {
-        this.symbols = symbols;
+        this.table = table;
     }
-    
+
     private void addItem (String... s)
     {
-        symbols.checkError(s[0]);
+        table.checkDuplicate(s[0]);
         ArrayList<String> line = new ArrayList<>();
         line.add(s[0]);
         line.add(s[1]);
         if (s.length > 2) line.add(s[2]);
         
-        ArrayList<List<String>> block = SymbolTable.map.get(symbols.scope);
+        ArrayList<List<String>> block = SymbolTable.getScope(table.scope);
         block = block != null ? block : new ArrayList<>();
         block.add(line);
-        SymbolTable.map.put(symbols.scope, block);
+        SymbolTable.addToScope(table.scope, block);
     }
     
     private void nextTable(String s)
     {
-        symbols.table = new SymbolTable(s);
-        symbols = symbols.table;
+        table.next = new SymbolTable(s);
+        table = table.next;
+    }
+    
+    private void pushBlock()
+    {
+        current.push(String.format("\nBlock %d", blockCount++));
+        nextTable("BLOCK");
+    }
+    
+    private boolean equals(String t1, String t2)
+    {
+        return t1.compareTo(t2) == 0;
     }
 
     @Override
@@ -57,10 +68,10 @@ public class Listener extends LittleBaseListener
     @Override
     public void enterParam_decl_list(LittleParser.Param_decl_listContext ctx)
     {
-        String text = ctx.getText();
-        if(text.compareTo("") != 0)
+        String t = ctx.getText();
+        if(!equals(t, ""))
         {
-            String [] vars = text.split(",");
+            String [] vars = t.split(",");
             for (String v : vars)
             {
                 String name = v.split("INT|FLOAT")[1];
@@ -73,7 +84,8 @@ public class Listener extends LittleBaseListener
     @Override
     public void enterFunc_decl(LittleParser.Func_declContext ctx)
     {
-        if(ctx.getText().compareTo("END") != 0)
+        String t = ctx.getText();
+        if(!equals(t, "END"))
         {
             String text = ctx.getText().split("BEGIN")[0];
             text = text.split("INT|FLOAT|VOID|STRING")[1];
@@ -85,30 +97,22 @@ public class Listener extends LittleBaseListener
     @Override
     public void enterIf_stmt(LittleParser.If_stmtContext ctx)
     {
-        String text = ctx.getText();
-
-        if(text.substring(0,2).equals("IF"))
-        {
-            stack.push("\nBlock " + blockCount++);
-            nextTable("BLOCK");
-        }
+        String t = ctx.getText().substring(0,2);
+        if(equals(t, "IF"))
+            pushBlock();
     }
 
     @Override
     public void enterElse_part(LittleParser.Else_partContext ctx)
     {
-        if(ctx.getText().compareTo("") != 0 && 
-           ctx.getText().compareTo("ENDIF") != 0)
-        {
-            stack.push("\nBlock "+ blockCount++);
-            nextTable("BLOCK");
-        }
+        String t = ctx.getText();
+        if(!equals(t, "") && !equals(t, "ENDIF"))
+           pushBlock();
     }
 
     @Override
     public void enterWhile_stmt(LittleParser.While_stmtContext ctx)
     {
-        stack.push("\nBlock " + blockCount++);
-        nextTable("BLOCK");
+        pushBlock();
     }
 }

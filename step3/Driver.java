@@ -7,35 +7,30 @@ public class Driver
 {
     public static void main(String[] args) throws IOException
     {
-        LittleParser parser = 
+        SymbolTable table = new SymbolTable("GLOBAL");
+        LittleParser.ProgramContext context = 
             new LittleParser(
                 new CommonTokenStream(
                     new LittleLexer(
                         new ANTLRInputStream(System.in)
                     )
                 )
-            );
+            ).program();
+        
+        (new ParseTreeWalker()).walk(new Listener(table), context);
 
-        LittleParser.ProgramContext context = parser.program();
-        ParseTreeWalker walker = new ParseTreeWalker();
-        SymbolTable symbols = new SymbolTable();
-        Listener listener = new Listener(symbols);
-        walker.walk(listener, context);
-
-        if(symbols.error != null)
+        if (table.error != null)
         {
-            System.out.println(symbols.error);
+            System.out.println("DECLARATION ERROR " + table.error);
         }
         else
         {
-            SymbolTable table = symbols;
-
             while(table != null)
             {
                 table.printTable();
-                table = table.next();
+                table = table.next;
                 System.out.println("\n");
-            }
+            }   
         }
     }
 }
