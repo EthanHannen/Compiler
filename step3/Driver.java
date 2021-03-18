@@ -5,6 +5,7 @@ import java.io.IOException;
 
 public class Driver
 {
+    @SuppressWarnings( "deprecation" )
     public static void main(String[] args) throws IOException
     {
         SymbolTable table = new SymbolTable("GLOBAL");
@@ -16,7 +17,7 @@ public class Driver
                     )
                 )
             ).program();
-        
+
         (new ParseTreeWalker()).walk(new Listener(table), context);
 
         if (table.error != null)
