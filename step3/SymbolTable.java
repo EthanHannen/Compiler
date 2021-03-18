@@ -9,12 +9,11 @@ public class SymbolTable
         new LinkedHashMap<>();      // Contains all Symbol Tables
     public static int block = 1;    // Block counter for logical blocks
     public static String error;     // Hold declaration error
-    
+
     // Local Variables
     public SymbolTable next;        // Next symbol table   
     public String scope;            // Scope table belongs to (global, function, etc)
     
-
     public SymbolTable(String scope)
     {
         if(scope.equals("BLOCK"))

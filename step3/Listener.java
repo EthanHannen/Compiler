@@ -3,9 +3,7 @@ import java.util.*;
 
 public class Listener extends LittleBaseListener
 {
-    //Stack<String> current = new Stack<>();
     public SymbolTable table;  // Symbol Table reference
-    public int blockCount = 1; // Counter for block levels
 
     public Listener(SymbolTable table)
     {
@@ -25,19 +23,13 @@ public class Listener extends LittleBaseListener
         block.add(var);
         SymbolTable.addToScope(table.scope, block);
     }
-    
+
     private void nextTable(String s)
     {
         table.next = new SymbolTable(s);
         table = table.next;
     }
-    
-    private void pushBlock()
-    {
-        //current.push(String.format("\nBlock %d", blockCount++));
-        nextTable("BLOCK");
-    }
-    
+
     private boolean equals(String t1, String t2)
     {
         return t1.compareTo(t2) == 0;
@@ -100,7 +92,7 @@ public class Listener extends LittleBaseListener
     {
         String t = ctx.getText().substring(0,2);
         if(equals(t, "IF"))
-            pushBlock();
+            nextTable("BLOCK");
     }
 
     @Override
@@ -108,12 +100,12 @@ public class Listener extends LittleBaseListener
     {
         String t = ctx.getText();
         if(!equals(t, "") && !equals(t, "ENDIF"))
-           pushBlock();
+           nextTable("BLOCK");
     }
 
     @Override
     public void enterWhile_stmt(LittleParser.While_stmtContext ctx)
     {
-        pushBlock();
+        nextTable("BLOCK");
     }
 }
