@@ -1,3 +1,9 @@
+/***********************************************
+* Project Step 3 | SymbolTable.java
+* Team 8
+* Ethan Hannen, Michael Skipper, Renato Xhaferi
+************************************************/
+
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
