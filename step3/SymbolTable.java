@@ -53,8 +53,8 @@ public class SymbolTable
     public void printTable()
     {
         ArrayList<List<String>> vars = map.get(scope);
-	if(scope.compareTo("GLOBAL") != 0)
-                System.out.println("\n");
+        if(scope.compareTo("GLOBAL") != 0)
+            System.out.println("\n");
 
         System.out.print("Symbol table " + scope);
 

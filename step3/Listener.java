@@ -4,25 +4,25 @@ import java.util.*;
 public class Listener extends LittleBaseListener
 {
     Stack<String> current = new Stack<>();
-    public SymbolTable table;
-    public int blockCount = 1;
+    public SymbolTable table;  // Symbol Table reference
+    public int blockCount = 1; // Counter for block levels
 
     public Listener(SymbolTable table)
     {
         this.table = table;
     }
 
-    private void addItem (String... s)
+    private void addVar (String... s)
     {
-        table.checkDuplicate(s[0]);
-        ArrayList<String> line = new ArrayList<>();
-        line.add(s[0]);
-        line.add(s[1]);
-        if (s.length > 2) line.add(s[2]);
+        table.checkDuplicate(s[0]); // Check for declaration errors
+        ArrayList<String> var = new ArrayList<>();
+        var.add(s[0]); // Name
+        var.add(s[1]); // Type or STRING
+        if (s.length > 2) var.add(s[2]); // Value of STRING
         
         ArrayList<List<String>> block = SymbolTable.getScope(table.scope);
-        block = block != null ? block : new ArrayList<>();
-        block.add(line);
+        block = block != null ? block : new ArrayList<>(); // Get block if exists
+        block.add(var);
         SymbolTable.addToScope(table.scope, block);
     }
     
@@ -49,20 +49,20 @@ public class Listener extends LittleBaseListener
         String vars = ctx.getText().split("INT|FLOAT")[1];
         String type = ctx.getText().split(vars)[0];
         vars = vars.split(";")[0];
-        String[] ids = vars.split(",");
+        String[] names = vars.split(",");
 
-        for (String id : ids)
-            addItem(id, type);
+        for (String name : names)
+            addVar(name, type);
     }
 
     @Override
     public void enterString_decl(LittleParser.String_declContext ctx)
     {
         String text = ctx.getText();
-        String [] vars = text.split(":=");
-        String val = vars[1].split(";")[0];
-        String id = vars[0].split("STRING")[1];
-        addItem(id, "STRING", val);
+        String [] strings = text.split(":=");
+        String value = strings[1].split(";")[0];
+        String id = strings[0].split("STRING")[1];
+        addVar(id, "STRING", value);
     }
     
     @Override
@@ -71,12 +71,13 @@ public class Listener extends LittleBaseListener
         String t = ctx.getText();
         if(!equals(t, ""))
         {
+            // Break param list into individual parts
             String [] vars = t.split(",");
             for (String v : vars)
             {
                 String name = v.split("INT|FLOAT")[1];
                 String type = v.split(name)[0];
-                addItem(name, type);
+                addVar(name, type);
             }
         }
     }
