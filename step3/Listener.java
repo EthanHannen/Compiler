@@ -3,7 +3,7 @@ import java.util.*;
 
 public class Listener extends LittleBaseListener
 {
-    Stack<String> current = new Stack<>();
+    //Stack<String> current = new Stack<>();
     public SymbolTable table;  // Symbol Table reference
     public int blockCount = 1; // Counter for block levels
 
@@ -34,7 +34,7 @@ public class Listener extends LittleBaseListener
     
     private void pushBlock()
     {
-        current.push(String.format("\nBlock %d", blockCount++));
+        //current.push(String.format("\nBlock %d", blockCount++));
         nextTable("BLOCK");
     }
     
