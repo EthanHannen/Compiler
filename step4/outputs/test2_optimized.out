@@ -1,0 +1,16 @@
+var a
+var b
+var c
+var d
+move 20 a
+move 30 b
+move 40 c
+move -10 c
+move 900 b
+move 920 b
+move 18400 d
+move 920 a
+sys writei c
+sys writei b
+sys writei a
+sys halt

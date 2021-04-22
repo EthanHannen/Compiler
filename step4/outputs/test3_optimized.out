@@ -1,0 +1,24 @@
+var x
+var y
+var z
+var t
+str newline "\n"
+move 1.0 x
+move 2.0 y
+move 3.14159 z
+sys writer x 
+sys writes newline
+sys writer z 
+sys writes newline
+sys writer y 
+sys writes newline
+move 1.570795 x
+move 1.570795 y
+sys writer x 
+sys writes newline
+sys writer y 
+sys writes newline
+move 3.14159 t
+sys writer t 
+sys writes newline 
+sys halt

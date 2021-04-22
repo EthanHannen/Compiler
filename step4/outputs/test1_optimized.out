@@ -1,0 +1,26 @@
+var a
+var b
+var c
+var d
+var e
+var f
+str newline "\n"
+move 1 a
+move 2 b
+sys readi c 
+sys readi d 
+move 1 r0
+muli c r0
+move r0 e
+move 2 r1
+muli d r1
+move r1 f
+addi f r0
+move r0 e
+sys writei c
+sys writes newline
+sys writei d
+sys writes newline
+sys writei e
+sys writes newline
+sys halt
